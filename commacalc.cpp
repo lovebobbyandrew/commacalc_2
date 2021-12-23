@@ -6,30 +6,34 @@
 
 namespace commacalc { // All original functions.
 
-namespace format { // String formatting functions.
+  namespace input_output { // String I/O functions.
 
-} // End of "commacalc::format" namespace.
+  } // End of "commacalc::input_output" namespace.
 
-namespace error_check { // Error checking functions.
+  namespace format { // String formatting functions.
 
-} // End of "commacalc::error_check" namespace.
+  } // End of "commacalc::format" namespace.
 
-namespace operation { // Basic math functions.
+  namespace error_check { // Error checking functions.
 
-double Exponentiation(double base, double exponent) {
-  return pow(base, exponent);
-}
+  } // End of "commacalc::error_check" namespace.
 
-double Multiplication(double multiplicand, double multiplier) {
+  namespace operation { // Basic math functions.
+
+  double Exponentiation(double base, double exponent) {
+    return pow(base, exponent);
+  }
+
+  double Multiplication(double multiplicand, double multiplier) {
   return multiplicand * multiplier;
-}
+  }
 
-double Division(double dividend, double divisor) {
-  return dividend / divisor;
-}
+  double Division(double dividend, double divisor) {
+    return dividend / divisor;
+  }
 
-double Addition(double addend, double augend) {
-  return addend + augend;
-}
-} // End of "commacalc::operation" namespace.
+  double Addition(double addend, double augend) {
+    return addend + augend;
+  }
+  } // End of "commacalc::operation" namespace.
 } // End of "commacalc" namespace.
