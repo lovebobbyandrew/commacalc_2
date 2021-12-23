@@ -1,5 +1,5 @@
 # Bobby Love
-# December 17, 2021
+# December 23, 2021
 # GNU GPL
 
 PROGRAM := commacalc
@@ -13,8 +13,8 @@ CXXFLAGS := -std=c++11 -Wall -Werror
 $(PROGRAM): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-main.o: main.cc commacalc.h
-commacalc.o: commacalc.cc commacalc.h
+main.o: main.cc commacalc.hpp
+commacalc.o: commacalc.cc commacalc.hpp
 
 .PHONY: clean
 clean:
