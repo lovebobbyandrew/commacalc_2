@@ -4,17 +4,17 @@
 
 PROGRAM := commacalc
 
-SOURCES := $(wildcard *.cc)
-HEADERS := $(wildcard *.h)
-OBJS := $(SOURCES:.cc=.o)
+SOURCES := $(wildcard *.cpp)
+HEADERS := $(wildcard *.hpp)
+OBJS := $(SOURCES:.cpp=.o)
 
 CXXFLAGS := -std=c++11 -Wall -Werror
 
 $(PROGRAM): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-main.o: main.cc commacalc.hpp
-commacalc.o: commacalc.cc commacalc.hpp
+main.o: main.cpp commacalc.hpp
+commacalc.o: commacalc.cpp commacalc.hpp
 
 .PHONY: clean
 clean:

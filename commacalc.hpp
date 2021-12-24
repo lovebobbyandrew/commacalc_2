@@ -2,14 +2,26 @@
 // December 23, 2021
 // GNU GPL
 
+#include <string>
+
 namespace commacalc { // All custom functions.
+
+  int Option(std::string); // Uses input string to determine user's choice.
 
   namespace input_output { // String I/O functions.
 
+  void PrintMenu(void); // Prints menu options.
+
+  char* ReadInput(const int&); // Reads char* array from stdin and returns nullptr upon failure.
+
+  void ClearStdin(void); // Clears input buffer upon ReadInput failure.
+
+  bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
   } // End of "commacalc::input_output" namespace.
 
   namespace format { // String formatting functions.
 
+  std::string RemoveSpace(const std::string&); // Outputs a whitespace-less copy of the input string.
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.
