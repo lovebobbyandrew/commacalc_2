@@ -1,0 +1,29 @@
+MENU:
+There are 3 menu options: EXPRESSION, HISTORY, and EXIT. Typing an expression
+(validity notwithstanding) will result in an attempt at calculation. Typing
+HISTORY (case insensitive) will list the previous 10 expressions and their
+results as equations. Typing EXIT (case insensitive) will end the program.
+
+EXPRESSIONS:
+A Texas Instruments TI-89 Titanium calculator was used as reference; i.e. a
+valid expression on such a calculator will likely be considered a valid
+expression within this program. For best results, it is recommended to type an
+expression with no whitespace. Whitespace between numbers and numbers will
+always be replaced with a single '*' as multiplication. Whitespace between
+numbers and operators or between operators and operators will be discarded.
+
+PRECEDENCE:
+The following table demonstrates the levels of precedence Commacalc will
+follow given a valid expression. If there is a tie between two or more
+operators within a single expression, the leftmost operator(s) will be
+evaluated first.
+
+LEVEL   OPERATION        OPERATOR
+1       PARENTHESIS      ()
+2       EXPONENTIATION   ^
+2       FACTORIAL        !
+3       MULTIPLICATION   *
+3       DIVISION         /
+3       MODULO           %
+4       ADDITION         +
+4       SUBTRACTION      -
