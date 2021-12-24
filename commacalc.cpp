@@ -93,12 +93,33 @@ std::string RemoveSpace(const std::string& input_string) {
                     isspace), copy_string.end());
   return copy_string;
 }
+
+std::string KeepChangeChange(const std::string& input_string) {
+  std::string copy_string = input_string;
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    if (copy_string.length() > i + 1) {
+      if ('-' == copy_string[i] && '-' == copy_string[i + 1]) {
+        copy_string.replace(i, 2, 1, '+');
+      }
+    }
+  }
+  return copy_string;
+}
 } // End of "commacalc::format" namespace.
 
 namespace error_check { // Error checking functions.
 
 bool CheckNeighbor(const std::string& input_string) {
-  return false;
+  bool error = false;
+  for (long unsigned int i = 0; i < input_string.length(); ++i) {
+    if (input_string.length() > i + 1) {
+      /*switch (input_string[i]) {
+        case '(':
+          if (
+      }*/
+    }
+  }
+  return error;
 }
 } // End of "commacalc::error_check" namespace.
 

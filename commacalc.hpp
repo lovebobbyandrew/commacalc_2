@@ -27,6 +27,8 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
   std::string InsertAsterisk(const std::string&); // Inserts a single asterisk at the beginning of whitespace flanked by numbers.
 
   std::string RemoveSpace(const std::string&); // Outputs a whitespaceless copy of the input string.
+
+  std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+'.
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.
