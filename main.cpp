@@ -31,6 +31,12 @@ int main() {
           std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
           std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
           std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
+          if (!error_check::ErrorCheck(kcc_string)) {
+            std::cout << "Valid expression." << std::endl;
+          } else {
+            std::cout << "Invalid expression." << std::endl;
+            break;
+          }
           StoreEquation(history_deque, input_string); // REPLACE input_string WITH equation_string
           break;
         case 2:

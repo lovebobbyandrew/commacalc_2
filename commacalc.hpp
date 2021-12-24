@@ -33,7 +33,11 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   namespace error_check { // Error checking functions.
 
+  bool ErrorCheck(const std::string&); // Calls other error checking functions.
+
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
+
+  bool CheckNumber(const std::string&); // Checks if each number has at most 1 decimal and at most 1 negative sign (at the beginning).
   } // End of "commacalc::error_check" namespace.
 
   namespace operation { // Basic math functions.

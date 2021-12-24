@@ -70,18 +70,21 @@ std::string InsertAsterisk(const std::string& input_string) {
   for (long unsigned int i = 0; i < copy_string.length(); ++i) { // Inserts 1 asterisk between number/parenthesis and bang/number/parenthesis
     if (isdigit(copy_string[i]) || '.' == copy_string[i] ||
         ')' == copy_string[i]) {
+      if (copy_string.length() > i + 1) { // Prevents out of bounds indexing.
+        if ('(' == copy_string[i + 1]) {
+          copy_string.insert(i + 1, "*");
+        }
+      }
       if (copy_string.length() > i + 2) { // Prevents out of bounds indexing.
-        if (isspace(copy_string[i + 1])) {
-          for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
-            if (isdigit(copy_string[j]) || '.' == copy_string[j] ||
-                '-' == copy_string[j] || '(' == copy_string[j] ||
-                '!' == copy_string[j]) {
-              copy_string.replace(i + 1, 1, 1, '*');
+        for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
+          if (isspace(copy_string[j])) {
+            if (isdigit(copy_string[j + 1]) || '.' == copy_string[j + 1] ||
+                '-' == copy_string[j + 1] || '(' == copy_string[j + 1] ||
+                '!' == copy_string[j + 1]) {
+              copy_string.insert(j + 1, "*");
               break;
-            } else if (!isspace(copy_string[j])) {
-              break;
-            }
-          }
+            } 
+          } else break;
         }
       }
     }
@@ -111,17 +114,79 @@ std::string KeepChangeChange(const std::string& input_string) {
 
 namespace error_check { // Error checking functions.
 
+bool ErrorCheck(const std::string& input_string) {
+  bool error = false;
+  error = CheckNeighbor(input_string);
+  //error = CheckNumber(input_string);
+  return error;
+}
+
 bool CheckNeighbor(const std::string& input_string) {
   bool error = false;
   for (long unsigned int i = 0; i < input_string.length(); ++i) {
     if (input_string.length() > i + 1) {
-      /*switch (input_string[i]) {
+      switch (input_string[i]) {
         case '(':
-          if (
-      }*/
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '*' != input_string[i + 1] && '-' != input_string[i + 1] &&
+              '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
+            error = true;
+            break;
+          }
+          break;
+        case ')':
+          if ('^' != input_string[i + 1] && '*' != input_string[i + 1] &&
+              '/' != input_string[i + 1] && '%' != input_string[i + 1] &&
+              '+' != input_string[i + 1] && '-' != input_string[i + 1]) {
+            error = true;
+            break;
+          }
+          break;
+        case '^':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] && 
+              !isdigit(input_string[i])) {
+            error = true;
+            break;
+          }
+          break;
+        case '!':
+          break;
+        case '*':
+          break;
+        case '/':
+          break;
+        case '%':
+          break;
+        case '+':
+          break;
+        case '-':
+          break;
+        case '.':
+          break;
+        default:
+          if (isdigit(input_string[i])) {
+            if (')' != input_string[i + 1] && '^' != input_string[i + 1] &&
+                '*' != input_string[i + 1] && '/' != input_string[i + 1] &&
+                '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
+                '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+                !isdigit(input_string[i + 1]) {
+              error = true;
+              break;
+            }
+          } else error = true; // If input_string[i] is not an operator or a digit, then it is an invalid character.
+          break;
+      }
+    }
+    if (true == error) {
+      break;
     }
   }
   return error;
+}
+
+bool CheckNumber(const std::string& input_string) {
+  return false;
 }
 } // End of "commacalc::error_check" namespace.
 
