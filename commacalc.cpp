@@ -67,13 +67,15 @@ namespace format { // String formatting functions.
 
 std::string InsertAsterisk(const std::string& input_string) {
   std::string copy_string = input_string;
-  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
-    if (isdigit(copy_string[i]) || '.' == copy_string[i]) {
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) { // Inserts 1 asterisk between number/parenthesis and bang/number/parenthesis
+    if (isdigit(copy_string[i]) || '.' == copy_string[i] ||
+        ')' == copy_string[i]) {
       if (copy_string.length() > i + 2) { // Prevents out of bounds indexing.
         if (isspace(copy_string[i + 1])) {
           for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
             if (isdigit(copy_string[j]) || '.' == copy_string[j] ||
-                '-' == copy_string[j]) {
+                '-' == copy_string[j] || '(' == copy_string[j] ||
+                '!' == copy_string[j]) {
               copy_string.replace(i + 1, 1, 1, '*');
               break;
             } else if (!isspace(copy_string[j])) {
