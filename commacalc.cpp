@@ -24,12 +24,20 @@ namespace commacalc { // All original functions.
     return pow(base, exponent);
   }
 
+  double Factorial(int argument) {
+    return 0; // Temporary to ward off compilier errors.
+  }
+
   double Multiplication(double multiplicand, double multiplier) {
   return multiplicand * multiplier;
   }
 
   double Division(double dividend, double divisor) {
     return dividend / divisor;
+  }
+
+  int Modulo(int dividend, int divisor) {
+    return dividend % divisor;
   }
 
   double Addition(double addend, double augend) {

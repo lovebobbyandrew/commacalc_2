@@ -20,9 +20,13 @@ namespace commacalc { // All custom functions.
 
   double Exponentiation(double, double);
 
-  double Multiplication(double, double);
+  int Factorial(int); // SAME PRECEDENCE AS EXPONENT. NOTE: CAN ONLY BE USED ON NATURAL NUMBERS. MAKE A FUNCTION THAT CAN DETERMINE WHETHER THE INPUT IS A NATURAL NUMBER.
+
+  double Multiplication(double, double); // 
 
   double Division(double, double);
+
+  int Modulo(int, int); // SAME PRECEDENCE AS MULTIPLY AND DIVIDE. NOTE: CAN ONLY BE USED ON INTEGERS. MAKE A FUNCTION THAT CAN DETERMINE WHETHER THE INPUTS ARE INTEGERS OR NOT.
 
   double Addition(double, double); // Subtraction is negative addtion.
   } // End of "commacalc::operation" namespace.

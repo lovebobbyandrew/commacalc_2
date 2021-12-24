@@ -7,5 +7,6 @@
 using namespace commacalc;
 
 int main() {
+
   return 0;
 }
