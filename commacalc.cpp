@@ -116,7 +116,8 @@ std::string KeepChangeChange(const std::string& input_string) {
   for (long unsigned int i = 0; i < copy_string.length(); ++i) {
     if (i + 2 < copy_string.length()) {
       if ('-' == copy_string[i] && '-' == copy_string[i + 1] &&
-        (isdigit(copy_string[i + 2]) || '.' == copy_string[i + 2])) {
+        (isdigit(copy_string[i + 2]) || '.' == copy_string[i + 2] ||
+          '(' == copy_string[i + 2])) {
         copy_string.replace(i, 2, 1, '+'); // If adjacent to a number, replace 2 '-' with 1 '+'.
       }
     }
