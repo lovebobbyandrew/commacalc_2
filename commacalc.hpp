@@ -2,11 +2,14 @@
 // December 23, 2021
 // GNU GPL
 
+#include <deque>
 #include <string>
 
 namespace commacalc { // All custom functions.
 
-  int Option(std::string); // Uses input string to determine user's choice.
+int Option(std::string); // Uses input string to determine user's choice.
+
+void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equation string into dequeue.
 
   namespace input_output { // String I/O functions.
 
@@ -16,7 +19,7 @@ namespace commacalc { // All custom functions.
 
   void ClearStdin(void); // Clears input buffer upon ReadInput failure.
 
-  bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
+  void PrintHistory(const std::deque<std::string>&); // Prints the history dequeue.
   } // End of "commacalc::input_output" namespace.
 
   namespace format { // String formatting functions.
@@ -26,6 +29,7 @@ namespace commacalc { // All custom functions.
 
   namespace error_check { // Error checking functions.
 
+  bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
   } // End of "commacalc::error_check" namespace.
 
   namespace operation { // Basic math functions.

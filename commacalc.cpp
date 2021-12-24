@@ -23,6 +23,15 @@ int Option(std::string input_string) {
   return choice;
 }
 
+void StoreEquation(std::deque<std::string>& history_deque, const std::string& equation) {
+  if (history_deque.size() < 10) {
+    history_deque.push_front(equation);
+  } else { // Prevents dequeue from growing greater than 10 indexes large.
+    history_deque.pop_back();
+    history_deque.push_front(equation);
+  }
+}
+
 namespace input_output { // I/O functions.
 
 void PrintMenu(void) {
@@ -46,9 +55,10 @@ void ClearStdin(void) {
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-
-bool CheckNeighbor(const std::string& input_string) {
-  return false;
+void PrintHistory(const std::deque<std::string>& history_deque) {
+  for (long unsigned int i = 0; i < history_deque.size(); ++i) {
+    std::cout << history_deque.at(i) << std::endl;
+  }
 }
 } // End of "commacalc::input_output" namespace.
 
@@ -61,6 +71,9 @@ std::string RemoveSpace(const std::string& input_string) {
 
 namespace error_check { // Error checking functions.
 
+bool CheckNeighbor(const std::string& input_string) {
+  return false;
+}
 } // End of "commacalc::error_check" namespace.
 
 namespace operation { // Basic math functions.

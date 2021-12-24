@@ -12,6 +12,7 @@ using namespace commacalc;
 int main() {
   bool loop = true;
   int max_length = MAX_LENGTH;
+  std::deque<std::string> history_deque;
   do {
     input_output::PrintMenu();
     char* input_array = input_output::ReadInput(max_length);
@@ -20,9 +21,10 @@ int main() {
       switch (Option(input_string)) {
         case 1:
           std::cout << "Error check." << std::endl;
+          StoreEquation(history_deque, input_string); // REPLACE input_string WITH equation_string
           break;
         case 2:
-          std::cout << "Print history." << std::endl;
+          input_output::PrintHistory(history_deque);
           break;
         case 3:
           loop = false;
