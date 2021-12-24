@@ -5,13 +5,15 @@
 #include "commacalc.hpp"
 #include <iostream>
 
-#define MAX_LENGTH 50
+#define MAX_LENGTH 256
 
 using namespace commacalc;
 
 int main() {
   bool loop = true;
   int max_length = MAX_LENGTH;
+  std::string spaceless_string;
+  std::string asterisk_string;
   std::deque<std::string> history_deque;
   do {
     input_output::PrintMenu();
@@ -20,7 +22,11 @@ int main() {
       std::string input_string = input_array;
       switch (Option(input_string)) {
         case 1:
-          std::cout << "Error check." << std::endl;
+          asterisk_string = format::InsertAsterisk(input_string);
+          spaceless_string = format::RemoveSpace(asterisk_string);
+          std::cout << "input_string: \"" << input_string << "\"" << std::endl;
+          std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
+          std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
           StoreEquation(history_deque, input_string); // REPLACE input_string WITH equation_string
           break;
         case 2:

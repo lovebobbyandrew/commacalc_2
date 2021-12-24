@@ -11,7 +11,7 @@ int Option(std::string); // Uses input string to determine user's choice.
 
 void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equation string into dequeue.
 
-  namespace input_output { // String I/O functions.
+  namespace input_output { // I/O functions.
 
   void PrintMenu(void); // Prints menu options.
 
@@ -24,7 +24,9 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   namespace format { // String formatting functions.
 
-  std::string RemoveSpace(const std::string&); // Outputs a whitespace-less copy of the input string.
+  std::string InsertAsterisk(const std::string&); // Inserts a single asterisk at the beginning of whitespace flanked by numbers.
+
+  std::string RemoveSpace(const std::string&); // Outputs a whitespaceless copy of the input string.
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.

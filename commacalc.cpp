@@ -2,6 +2,7 @@
 // December 23, 2021
 // GNU GPL
 
+#include <algorithm>
 #include <cmath>
 #include "commacalc.hpp"
 #include <iostream>
@@ -63,9 +64,34 @@ void PrintHistory(const std::deque<std::string>& history_deque) {
 } // End of "commacalc::input_output" namespace.
 
 namespace format { // String formatting functions.
+
+std::string InsertAsterisk(const std::string& input_string) {
+  std::string copy_string = input_string;
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    if (isdigit(copy_string[i]) || '.' == copy_string[i]) {
+      if (copy_string.length() > i + 2) { // Prevents out of bounds indexing.
+        if (isspace(copy_string[i + 1])) {
+          for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
+            if (isdigit(copy_string[j]) || '.' == copy_string[j] ||
+                '-' == copy_string[j]) {
+              copy_string.replace(i + 1, 1, 1, '*');
+              break;
+            } else if (!isspace(copy_string[j])) {
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  return copy_string;
+}
+
 std::string RemoveSpace(const std::string& input_string) {
-  std::string hold = "";
-  return hold;
+  std::string copy_string = input_string;
+  copy_string.erase(std::remove_if(copy_string.begin(), copy_string.end(),
+                    isspace), copy_string.end());
+  return copy_string;
 }
 } // End of "commacalc::format" namespace.
 
