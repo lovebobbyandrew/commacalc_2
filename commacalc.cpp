@@ -99,12 +99,25 @@ std::string RemoveSpace(const std::string& input_string) {
   return copy_string;
 }
 
-std::string KeepChangeChange(const std::string& input_string) {
+std::string PlusMinusReplace(const std::string& input_string) {
   std::string copy_string = input_string;
   for (long unsigned int i = 0; i < copy_string.length(); ++i) {
     if (copy_string.length() > i + 1) {
-      if ('-' == copy_string[i] && '-' == copy_string[i + 1]) {
-        copy_string.replace(i, 2, 1, '+');
+      if ('+' == copy_string[i] && '-' == copy_string[i + 1]) {
+        copy_string.replace(i, 2, "-");
+      }
+    }
+  }
+  return copy_string;
+}
+
+std::string KeepChangeChange(const std::string& input_string) {
+  std::string copy_string = input_string;
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    if (i + 2 < copy_string.length()) {
+      if ('-' == copy_string[i] && '-' == copy_string[i + 1] &&
+        (isdigit(copy_string[i + 2]) || '.' == copy_string[i + 2])) {
+        copy_string.replace(i, 2, 1, '+'); // If adjacent to a number, replace 2 '-' with 1 '+'.
       }
     }
   }
@@ -124,14 +137,13 @@ bool ErrorCheck(const std::string& input_string) {
 bool CheckNeighbor(const std::string& input_string) {
   bool error = false;
   for (long unsigned int i = 0; i < input_string.length(); ++i) {
-    if (input_string.length() > i + 1) {
+    if (input_string.length() > i + 1) { // Prevents out of bounds indexing.
       switch (input_string[i]) {
         case '(':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
               '*' != input_string[i + 1] && '-' != input_string[i + 1] &&
               '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
             error = true;
-            break;
           }
           break;
         case ')':
@@ -139,7 +151,6 @@ bool CheckNeighbor(const std::string& input_string) {
               '/' != input_string[i + 1] && '%' != input_string[i + 1] &&
               '+' != input_string[i + 1] && '-' != input_string[i + 1]) {
             error = true;
-            break;
           }
           break;
         case '^':
@@ -147,22 +158,55 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] && 
               !isdigit(input_string[i])) {
             error = true;
-            break;
           }
           break;
         case '!':
+          if ('(' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '*':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '/':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '%':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '+':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '-':
+          if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
+              '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         case '.':
+          if (')' != input_string[i + 1] && '^' != input_string[i + 1] &&
+              '*' != input_string[i + 1] && '/' != input_string[i + 1] &&
+              '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
+              '-' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
+            error = true;
+          }
           break;
         default:
           if (isdigit(input_string[i])) {
@@ -170,9 +214,8 @@ bool CheckNeighbor(const std::string& input_string) {
                 '*' != input_string[i + 1] && '/' != input_string[i + 1] &&
                 '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
                 '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
-                !isdigit(input_string[i + 1]) {
+                !isdigit(input_string[i + 1])) {
               error = true;
-              break;
             }
           } else error = true; // If input_string[i] is not an operator or a digit, then it is an invalid character.
           break;

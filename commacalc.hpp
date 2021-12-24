@@ -28,7 +28,9 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   std::string RemoveSpace(const std::string&); // Outputs a whitespaceless copy of the input string.
 
-  std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+'.
+  std::string PlusMinusReplace(const std::string&); // Replaces "+-" with '-'.
+
+  std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+' when found to the left of a number.
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.

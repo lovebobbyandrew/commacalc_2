@@ -14,6 +14,7 @@ int main() {
   int max_length = MAX_LENGTH;
   std::string input_string;
   std::string spaceless_string;
+  std::string plus_minus_string;
   std::string asterisk_string;
   std::string kcc_string;
   std::deque<std::string> history_deque;
@@ -27,14 +28,20 @@ int main() {
           asterisk_string = format::InsertAsterisk(input_string);
           spaceless_string = format::RemoveSpace(asterisk_string);
           kcc_string = format::KeepChangeChange(spaceless_string);
-          std::cout << "input_string: \"" << input_string << "\"" << std::endl;
-          std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
-          std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
-          std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
           if (!error_check::ErrorCheck(kcc_string)) {
+            plus_minus_string = format::PlusMinusReplace(kcc_string);
             std::cout << "Valid expression." << std::endl;
+            std::cout << "input_string: \"" << input_string << "\"" << std::endl;
+            std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
+            std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
+            std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
+            std::cout << "plus_minus_string: \"" << plus_minus_string << "\"" << std::endl;
           } else {
             std::cout << "Invalid expression." << std::endl;
+            std::cout << "input_string: \"" << input_string << "\"" << std::endl;
+            std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
+            std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
+            std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
             break;
           }
           StoreEquation(history_deque, input_string); // REPLACE input_string WITH equation_string
