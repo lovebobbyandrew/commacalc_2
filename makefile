@@ -8,7 +8,7 @@ SOURCES := $(wildcard *.cpp)
 HEADERS := $(wildcard *.hpp)
 OBJS := $(SOURCES:.cpp=.o)
 
-CXXFLAGS := -std=c++11 -Wall -Werror
+CXXFLAGS := -std=c++11 -Wall
 
 $(PROGRAM): $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@

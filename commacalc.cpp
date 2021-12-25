@@ -118,7 +118,24 @@ std::string KeepChangeChange(const std::string& input_string) {
       if ('-' == copy_string[i] && '-' == copy_string[i + 1] &&
         (isdigit(copy_string[i + 2]) || '.' == copy_string[i + 2] ||
           '(' == copy_string[i + 2])) {
-        copy_string.replace(i, 2, 1, '+'); // If adjacent to a number, replace 2 '-' with 1 '+'.
+        copy_string.replace(i, 2, 1, '+'); // If adjacent to a number or '(', replace 2 '-' with 1 '+'.
+      }
+    }
+  }
+  return copy_string;
+}
+
+std::string InsertPlus(const std::string& input_string) {
+  std::string copy_string = input_string;
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+  std::cout << copy_string << std::endl;
+    if (copy_string.length() > i + 2) {
+      if ((')' == copy_string[i] || '.' == copy_string[i] ||
+          isdigit(copy_string[i])) && '-' == copy_string[i + 1] &&
+          ('(' == copy_string[i + 2] || '.' == copy_string[i + 2] ||
+          isdigit(copy_string[i + 2]))) {
+        copy_string.insert(i + 1, 1, '+');
+        ++i;
       }
     }
   }
@@ -130,8 +147,33 @@ namespace error_check { // Error checking functions.
 
 bool ErrorCheck(const std::string& input_string) {
   bool error = false;
+  do {
+  error = CheckCharacters(input_string);
+  std::cout << "CheckCharacters return is " << error << std::endl;
+  if (error) break;
   error = CheckNeighbor(input_string);
-  //error = CheckNumber(input_string);
+  std::cout << "CheckNeighbor return is: " << error << std::endl;
+  if (error) break;
+  error = CheckNumber(input_string);
+  std::cout << "CheckNumber return is: " << error << std::endl;
+  if (error) break;
+  } while (error);
+  return error;
+}
+
+bool CheckCharacters(const std::string& input_string) {
+  bool error = false;
+  for (long unsigned int i = 0; i < input_string.length(); ++i) {
+    if ('(' != input_string[i] && ')' != input_string[i] &&
+        '^' != input_string[i] && '!' != input_string[i] &&
+        '*' != input_string[i] && '/' != input_string[i] &&
+        '%' != input_string[i] && '+' != input_string[i] &&
+        '-' != input_string[i] && '.' != input_string[i] &&
+        !isdigit(input_string[i])) {
+      error = true;
+      break;
+    }
+  }
   return error;
 }
 
@@ -142,9 +184,10 @@ bool CheckNeighbor(const std::string& input_string) {
       switch (input_string[i]) {
         case '(':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
-              '*' != input_string[i + 1] && '-' != input_string[i + 1] &&
-              '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
+              !isdigit(input_string[i + 1])) {
             error = true;
+std::cout <<" 1" << std::endl;
           }
           break;
         case ')':
@@ -152,19 +195,22 @@ bool CheckNeighbor(const std::string& input_string) {
               '/' != input_string[i + 1] && '%' != input_string[i + 1] &&
               '+' != input_string[i + 1] && '-' != input_string[i + 1]) {
             error = true;
+std::cout <<" 2" << std::endl;
           }
           break;
         case '^':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
               '-' != input_string[i + 1] && '.' != input_string[i + 1] && 
-              !isdigit(input_string[i])) {
+              !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<< " 3" << std::endl;
           }
           break;
         case '!':
           if ('(' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<< " 4" << std::endl;
           }
           break;
         case '*':
@@ -172,6 +218,7 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<< " 5" << std::endl;
           }
           break;
         case '/':
@@ -179,6 +226,7 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<< " 6" << std::endl;
           }
           break;
         case '%':
@@ -186,6 +234,7 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
+std::cout <<" 7" << std::endl;
           }
           break;
         case '+':
@@ -193,12 +242,14 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<< " 8" << std::endl;
           }
           break;
         case '-':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
               '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
             error = true;
+std::cout<<" 9" << std::endl;
           }
           break;
         case '.':
@@ -207,6 +258,7 @@ bool CheckNeighbor(const std::string& input_string) {
               '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
               '-' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
             error = true;
+std::cout <<" 10" << std::endl;
           }
           break;
         default:
@@ -217,6 +269,7 @@ bool CheckNeighbor(const std::string& input_string) {
                 '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
                 !isdigit(input_string[i + 1])) {
               error = true;
+std::cout<< " 11" << std::endl;
             }
           } else error = true; // If input_string[i] is not an operator or a digit, then it is an invalid character.
           break;
@@ -230,7 +283,76 @@ bool CheckNeighbor(const std::string& input_string) {
 }
 
 bool CheckNumber(const std::string& input_string) {
-  return false;
+  bool error = false;
+  bool loop = true;
+  bool period_found;
+  bool digit_found;
+  bool end_found;
+  unsigned int range;
+  std::string copy_string = input_string;
+  do {
+    period_found = false;
+    digit_found = false;
+    end_found = false;
+    range = 0;
+    for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+      if ('-' == copy_string[i] || '.' == copy_string[i] ||
+          isdigit(copy_string[i])) { // Conditions for the beggining of a number.
+        if ('.' == copy_string[i]) {
+          period_found = true;
+        } else if (isdigit(copy_string[i])) {
+          digit_found = true;
+        }
+        for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
+          ++range;
+          if ('.' == copy_string[j] && period_found) {
+            error = true;
+            break;
+          }
+          if ('.' == copy_string[j]) {
+            period_found = true;
+          }
+          if ('-' == copy_string[j]) {
+            error = true;
+            break;
+          }
+          if (isdigit(copy_string[j])) {
+            digit_found = true;
+          }
+          if (')' == copy_string[j] || '^' == copy_string[j] ||
+              '*' == copy_string[j] || '/' == copy_string[j] ||
+              '%' == copy_string[j] || '+' == copy_string[j] ){
+            end_found = true;
+            copy_string.erase(i, range);
+            break;
+          }
+          if (copy_string.length() - 1 == j) {
+            loop = false;
+          }
+        }
+        if (!digit_found) {
+          error = true;
+        }
+        if (end_found) {
+          break;
+        }
+        if (error) {
+          break;
+        }
+      }
+      if (copy_string.length() - 1 == i) {
+        loop = false;
+      }
+      period_found = false;
+      digit_found = false;
+      end_found = false;
+      range = 0;
+    }
+    if (true == error) {
+      loop = false;
+    }
+  } while (loop);
+  return error;
 }
 } // End of "commacalc::error_check" namespace.
 

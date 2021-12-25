@@ -31,11 +31,15 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
   std::string PlusMinusReplace(const std::string&); // Replaces "+-" with '-'.
 
   std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+' when found to the left of a number or '('.
+
+  std::string InsertPlus(const std::string&); // Replaces individual '-' that are flanked by numbers or parenthesises with "+-".
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.
 
   bool ErrorCheck(const std::string&); // Calls other error checking functions.
+
+  bool CheckCharacters(const std::string&); // Checks if any invalid characters are present in input string.
 
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
 
