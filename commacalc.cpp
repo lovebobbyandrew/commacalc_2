@@ -191,16 +191,17 @@ std::cout <<" 1" << std::endl;
           }
           break;
         case ')':
-          if ('^' != input_string[i + 1] && '*' != input_string[i + 1] &&
-              '/' != input_string[i + 1] && '%' != input_string[i + 1] &&
-              '+' != input_string[i + 1] && '-' != input_string[i + 1]) {
+          if (')' != input_string[i + 1] && '^' != input_string[i + 1] &&
+              '*' != input_string[i + 1] && '/' != input_string[i + 1] &&
+              '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
+              '-' != input_string[i + 1]) {
             error = true;
 std::cout <<" 2" << std::endl;
           }
           break;
         case '^':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
-              '-' != input_string[i + 1] && '.' != input_string[i + 1] && 
+              '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
 std::cout<< " 3" << std::endl;
@@ -305,28 +306,35 @@ bool CheckNumber(const std::string& input_string) {
         }
         for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
           ++range;
-          if ('.' == copy_string[j] && period_found) {
+          if ('(' == copy_string[j]) { // If there was only a negative sign in front of a parenthesis.
+            digit_found = true;
+            break;
+          }
+          if ('.' == copy_string[j] && period_found) { // If a second period is found within a single number.
             error = true;
             break;
           }
           if ('.' == copy_string[j]) {
             period_found = true;
           }
-          if ('-' == copy_string[j]) {
+          if ('-' == copy_string[j]) { // If a negative sign is found inside of a number.
             error = true;
             break;
           }
-          if (isdigit(copy_string[j])) {
+          if (isdigit(copy_string[j])) { // Ensures that a number contains at least 1 digit.
             digit_found = true;
           }
           if (')' == copy_string[j] || '^' == copy_string[j] ||
               '*' == copy_string[j] || '/' == copy_string[j] ||
-              '%' == copy_string[j] || '+' == copy_string[j] ){
+              '%' == copy_string[j] || '+' == copy_string[j] ||
+              '.' == copy_string[j]){
             end_found = true;
-            copy_string.erase(i, range);
+            if ('.' == copy_string[j]) {
+              copy_string.erase(i, range + 1);
+            } else copy_string.erase(i, range);
             break;
           }
-          if (copy_string.length() - 1 == j) {
+          if (copy_string.length() - 1 == j) { // Stop do while loop once the end of the string has been reached.
             loop = false;
           }
         }
@@ -336,7 +344,7 @@ bool CheckNumber(const std::string& input_string) {
         if (end_found) {
           break;
         }
-        if (error) {
+        if (error) { // If an error has been discovered, no need to continue looping.
           break;
         }
       }
