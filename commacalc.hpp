@@ -41,7 +41,11 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   bool CheckCharacters(const std::string&); // Checks if any invalid characters are present in input string.
 
+  bool CheckBeginEnd(const std::string&); // Checks if an invalid operator is located at the beggining or end of the input string. 
+
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
+
+  bool CheckParenPairs(const std::string&); // Checks that all left parenthesis have a matching right parenthesis.
 
   bool CheckNumber(const std::string&); // Checks if each number has at most 1 decimal and at most 1 negative sign (at the beginning).
   } // End of "commacalc::error_check" namespace.

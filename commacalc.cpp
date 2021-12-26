@@ -151,13 +151,36 @@ bool ErrorCheck(const std::string& input_string) {
   error = CheckCharacters(input_string);
   std::cout << "CheckCharacters return is " << error << std::endl;
   if (error) break;
+  error = CheckBeginEnd(input_string);
+  std::cout << "CheckEnd return is " << error << std::endl;
+  if (error) break;
   error = CheckNeighbor(input_string);
   std::cout << "CheckNeighbor return is: " << error << std::endl;
   if (error) break;
+  //error = CheckParenPairs(input_string);
+  //std::cout << "CheckParenPairs return is: " << error << std::endl;
+  //if (error) break;
   error = CheckNumber(input_string);
   std::cout << "CheckNumber return is: " << error << std::endl;
   if (error) break;
   } while (error);
+  return error;
+}
+
+bool CheckBeginEnd(const std::string& input_string) {
+  bool error = false;
+  long unsigned int final_index = input_string.length() - 1;
+  if (')' == input_string[0] || '^' == input_string[0] ||
+      '*' == input_string[0] || '/' == input_string[0] ||
+      '%' == input_string[0] || '+' == input_string[0]) {
+    error = true;
+  }
+  if ('(' == input_string[final_index] || '^' == input_string[final_index] ||
+      '!' == input_string[final_index] || '*' == input_string[final_index] ||
+      '/' == input_string[final_index] || '%' == input_string[final_index] ||
+      '+' == input_string[final_index] || '-' == input_string[final_index]) {
+      error = true;
+  }
   return error;
 }
 
@@ -279,6 +302,46 @@ std::cout<< " 11" << std::endl;
     if (true == error) {
       break;
     }
+  }
+  return error;
+}
+
+bool CheckParenPairs(const std::string& input_string) {
+  bool error = false;
+  bool loop = true;
+  bool left_paren;
+  bool right_paren;
+  unsigned int left_paren_count = 0;
+  unsigned int right_paren_count = 0;
+  std::string copy_string = input_string;
+  do {
+    left_paren = false;
+    right_paren = false;
+    for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+      if ('(' == copy_string[i]) { // If a left parenthesis is found, search for a right parenthesis.
+        ++left_paren_count;
+        left_paren = true;
+        for (long unsigned int j = i + 1; i < copy_string.length(); ++j) {
+          if (')' == copy_string[j]) {
+            ++right_paren_count;
+            right_paren = true;
+            copy_string[j] = '~'; // Remove right parenthesis to prevent recounting.
+            std::cout << "input mod is " << input_string[j] << std::endl;
+            break;
+          }
+        }
+        if (true == left_paren && false == right_paren) {
+          error = true;
+          break;
+        }
+      }
+      if (copy_string.length() - 1 == i || true == error) {
+        loop = false;
+      }
+    }
+  } while (loop);
+  if (left_paren_count != right_paren_count) {
+    error = true;
   }
   return error;
 }
