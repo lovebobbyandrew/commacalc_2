@@ -66,6 +66,7 @@ void PrintHistory(const std::deque<std::string>& history_deque) {
 namespace format { // String formatting functions.
 
 std::string InsertAsterisk(const std::string& input_string) {
+  bool period_found;
   std::string copy_string = input_string;
   for (long unsigned int i = 0; i < copy_string.length(); ++i) { // Inserts 1 asterisk between number/parenthesis and bang/number/parenthesis
     if (isdigit(copy_string[i]) || '.' == copy_string[i] ||
@@ -89,6 +90,24 @@ std::string InsertAsterisk(const std::string& input_string) {
       }
     }
   }
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    period_found = false;
+    if ('.' == copy_string[i] || isdigit(copy_string[i])) {
+      if ('.' == copy_string[i]) {
+        period_found = true;
+      }
+      for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
+        if ('.' != copy_string[j] && !isdigit(copy_string[j])) {
+          break;
+        } else if ('.' == copy_string[j] && period_found) {
+          copy_string.insert(j, 1, '*');
+          break;
+        } else if ('.' == copy_string[j]) {
+          period_found = true;
+        }
+      }
+    }
+  }
   return copy_string;
 }
 
@@ -96,18 +115,6 @@ std::string RemoveSpace(const std::string& input_string) {
   std::string copy_string = input_string;
   copy_string.erase(std::remove_if(copy_string.begin(), copy_string.end(),
                     isspace), copy_string.end());
-  return copy_string;
-}
-
-std::string PlusMinusReplace(const std::string& input_string) {
-  std::string copy_string = input_string;
-  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
-    if (copy_string.length() > i + 1) {
-      if ('+' == copy_string[i] && '-' == copy_string[i + 1]) {
-        copy_string.replace(i, 2, "-");
-      }
-    }
-  }
   return copy_string;
 }
 
@@ -128,12 +135,11 @@ std::string KeepChangeChange(const std::string& input_string) {
 std::string InsertPlus(const std::string& input_string) {
   std::string copy_string = input_string;
   for (long unsigned int i = 0; i < copy_string.length(); ++i) {
-  std::cout << copy_string << std::endl;
     if (copy_string.length() > i + 2) {
       if ((')' == copy_string[i] || '.' == copy_string[i] ||
           isdigit(copy_string[i])) && '-' == copy_string[i + 1] &&
-          ('(' == copy_string[i + 2] || '.' == copy_string[i + 2] ||
-          isdigit(copy_string[i + 2]))) {
+          ('(' == copy_string[i + 2] || '!' == copy_string[i + 2] ||
+            '.' == copy_string[i + 2] || isdigit(copy_string[i + 2]))) {
         copy_string.insert(i + 1, 1, '+');
         ++i;
       }
@@ -157,9 +163,9 @@ bool ErrorCheck(const std::string& input_string) {
   error = CheckNeighbor(input_string);
   std::cout << "CheckNeighbor return is: " << error << std::endl;
   if (error) break;
-  //error = CheckParenPairs(input_string);
-  //std::cout << "CheckParenPairs return is: " << error << std::endl;
-  //if (error) break;
+  error = CheckParenPairs(input_string);
+  std::cout << "CheckParenPairs return is: " << error << std::endl;
+  if (error) break;
   error = CheckNumber(input_string);
   std::cout << "CheckNumber return is: " << error << std::endl;
   if (error) break;
@@ -210,7 +216,6 @@ bool CheckNeighbor(const std::string& input_string) {
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout <<" 1" << std::endl;
           }
           break;
         case ')':
@@ -219,7 +224,6 @@ std::cout <<" 1" << std::endl;
               '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
               '-' != input_string[i + 1]) {
             error = true;
-std::cout <<" 2" << std::endl;
           }
           break;
         case '^':
@@ -227,14 +231,12 @@ std::cout <<" 2" << std::endl;
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<< " 3" << std::endl;
           }
           break;
         case '!':
           if ('(' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<< " 4" << std::endl;
           }
           break;
         case '*':
@@ -242,7 +244,6 @@ std::cout<< " 4" << std::endl;
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<< " 5" << std::endl;
           }
           break;
         case '/':
@@ -250,7 +251,6 @@ std::cout<< " 5" << std::endl;
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<< " 6" << std::endl;
           }
           break;
         case '%':
@@ -258,7 +258,6 @@ std::cout<< " 6" << std::endl;
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout <<" 7" << std::endl;
           }
           break;
         case '+':
@@ -266,14 +265,12 @@ std::cout <<" 7" << std::endl;
               '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
               !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<< " 8" << std::endl;
           }
           break;
         case '-':
           if ('(' != input_string[i + 1] && '!' != input_string[i + 1] &&
               '.' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
             error = true;
-std::cout<<" 9" << std::endl;
           }
           break;
         case '.':
@@ -282,7 +279,6 @@ std::cout<<" 9" << std::endl;
               '%' != input_string[i + 1] && '+' != input_string[i + 1] &&
               '-' != input_string[i + 1] && !isdigit(input_string[i + 1])) {
             error = true;
-std::cout <<" 10" << std::endl;
           }
           break;
         default:
@@ -293,7 +289,6 @@ std::cout <<" 10" << std::endl;
                 '-' != input_string[i + 1] && '.' != input_string[i + 1] &&
                 !isdigit(input_string[i + 1])) {
               error = true;
-std::cout<< " 11" << std::endl;
             }
           } else error = true; // If input_string[i] is not an operator or a digit, then it is an invalid character.
           break;
@@ -306,14 +301,13 @@ std::cout<< " 11" << std::endl;
   return error;
 }
 
-bool CheckParenPairs(const std::string& input_string) {
+bool CheckParenPairs(std::string copy_string) {
   bool error = false;
   bool loop = true;
   bool left_paren;
   bool right_paren;
   unsigned int left_paren_count = 0;
   unsigned int right_paren_count = 0;
-  std::string copy_string = input_string;
   do {
     left_paren = false;
     right_paren = false;
@@ -321,12 +315,11 @@ bool CheckParenPairs(const std::string& input_string) {
       if ('(' == copy_string[i]) { // If a left parenthesis is found, search for a right parenthesis.
         ++left_paren_count;
         left_paren = true;
-        for (long unsigned int j = i + 1; i < copy_string.length(); ++j) {
+        for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
           if (')' == copy_string[j]) {
             ++right_paren_count;
             right_paren = true;
             copy_string[j] = '~'; // Remove right parenthesis to prevent recounting.
-            std::cout << "input mod is " << input_string[j] << std::endl;
             break;
           }
         }
@@ -340,7 +333,7 @@ bool CheckParenPairs(const std::string& input_string) {
       }
     }
   } while (loop);
-  if (left_paren_count != right_paren_count) {
+  if (left_paren_count != right_paren_count) { // Accounts for right parenthesis that appear before left parenthesis.
     error = true;
   }
   return error;
@@ -375,6 +368,7 @@ bool CheckNumber(const std::string& input_string) {
           }
           if ('.' == copy_string[j] && period_found) { // If a second period is found within a single number.
             error = true;
+          std::cout << "here1" << std::endl;
             break;
           }
           if ('.' == copy_string[j]) {
@@ -382,6 +376,11 @@ bool CheckNumber(const std::string& input_string) {
           }
           if ('-' == copy_string[j]) { // If a negative sign is found inside of a number.
             error = true;
+          std::cout << "copy_string is " << copy_string << std::endl;
+          std::cout << "j - 1 is " << copy_string[j -1] << std::endl;
+          std::cout << "j is " << copy_string[j] << std::endl;
+          std::cout << "j + 1 is " << copy_string[j + 1] << std::endl;
+          std::cout << "here2" << std::endl;
             break;
           }
           if (isdigit(copy_string[j])) { // Ensures that a number contains at least 1 digit.
@@ -403,6 +402,7 @@ bool CheckNumber(const std::string& input_string) {
         }
         if (!digit_found) {
           error = true;
+          std::cout << "here3" << std::endl;
         }
         if (end_found) {
           break;

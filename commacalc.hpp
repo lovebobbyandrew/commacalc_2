@@ -28,8 +28,6 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   std::string RemoveSpace(const std::string&); // Outputs a whitespaceless copy of the input string.
 
-  std::string PlusMinusReplace(const std::string&); // Replaces "+-" with '-'.
-
   std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+' when found to the left of a number or '('.
 
   std::string InsertPlus(const std::string&); // Replaces individual '-' that are flanked by numbers or parenthesises with "+-".
@@ -45,7 +43,7 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
 
-  bool CheckParenPairs(const std::string&); // Checks that all left parenthesis have a matching right parenthesis.
+  bool CheckParenPairs(std::string); // Checks that all left parenthesis have a matching right parenthesis.
 
   bool CheckNumber(const std::string&); // Checks if each number has at most 1 decimal and at most 1 negative sign (at the beginning).
   } // End of "commacalc::error_check" namespace.
