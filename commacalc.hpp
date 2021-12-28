@@ -24,18 +24,24 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   namespace format { // String formatting functions.
 
-  std::string InsertAsterisk(const std::string&); // Inserts a single asterisk at the beginning of whitespace flanked by numbers.
+  std::string InsertAsterisk(const std::string&); // Inserts a single asterisk at the beginning of whitespace flanked by numbers or between two period separated numbers.
 
   std::string RemoveSpace(const std::string&); // Outputs a whitespaceless copy of the input string.
 
   std::string KeepChangeChange(const std::string&); // Replaces double '-' with a single '+' when found to the left of a number or '('.
 
   std::string InsertPlus(const std::string&); // Replaces individual '-' that are flanked by numbers or parenthesises with "+-".
+
+  std::string InsertZero(const std::string&); // Inserts a '0' before or after any decimal adjacent to an operator.
   } // End of "commacalc::format" namespace.
 
   namespace error_check { // Error checking functions.
 
+  bool LonePeriod(const std::string&); // Searches for lone periods in input string.
+
   bool ErrorCheck(const std::string&); // Calls other error checking functions.
+
+  bool EmptyString(const std::string&); // Checks if input string is empty.
 
   bool CheckCharacters(const std::string&); // Checks if any invalid characters are present in input string.
 

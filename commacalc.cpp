@@ -147,18 +147,86 @@ std::string InsertPlus(const std::string& input_string) {
   }
   return copy_string;
 }
+
+std::string InsertZero(const std::string& input_string) {
+  std::string copy_string = input_string;
+  if ('.' == copy_string[0]) {
+    copy_string.insert(0, 1, '0');
+  }
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    if (copy_string.length() > i + 1) {
+      if ('.' == copy_string[i]) {
+        if ('(' == copy_string[i + 1] || ')' == copy_string[i + 1] ||
+            '^' == copy_string[i + 1] || '!' == copy_string[i + 1] ||
+            '*' == copy_string[i + 1] || '/' == copy_string[i + 1] ||
+            '%' == copy_string[i + 1] || '+' == copy_string[i + 1] ||
+            '-' == copy_string[i + 1]) {
+          copy_string.insert(i + 1, 1, '0');
+          ++i;
+        }
+      }
+    }
+    if (i - 1 >= 0) {
+      if ('.' == copy_string[i]) {
+        if ('(' == copy_string[i - 1] || ')' == copy_string[i - 1] ||
+            '^' == copy_string[i - 1] || '!' == copy_string[i - 1] ||
+            '*' == copy_string[i - 1] || '/' == copy_string[i - 1] ||
+            '%' == copy_string[i - 1] || '+' == copy_string[i - 1] ||
+            '-' == copy_string[i - 1]) {
+          copy_string.insert(i, 1, '0');
+          ++i;
+        }
+      }
+    }
+  }
+  if ('.' == copy_string[copy_string.length() - 1]) {
+    copy_string.insert(copy_string.length(), 1, '0');
+  }
+  return copy_string;
+}
 } // End of "commacalc::format" namespace.
 
 namespace error_check { // Error checking functions.
 
+bool LonePeriod(const std::string& input_string) {
+  bool error = false;
+  if (1 == input_string.length()) {
+    if ('.' == input_string[0]) {
+      error = true;
+    }
+  }
+  if (1 < input_string.length()) {
+    if ('.' == input_string[0] && isspace(input_string[1])) {
+      error = true;
+    }
+    if ('.' == input_string[input_string.length() - 1] &&
+        isspace(input_string[input_string.length() - 2])) {
+      error = true;
+    }
+  }
+  for (long unsigned int i = 0; i < input_string.length(); ++i) {
+    if (i >= 0 && i < input_string.length()) {
+      if (isspace(input_string[i - 1]) && '.' == input_string[i] &&
+          isspace(input_string[i + 1])) {
+        error = true;
+        break;
+      }
+    }
+  }
+  return error;
+}
+
 bool ErrorCheck(const std::string& input_string) {
   bool error = false;
   do {
+  error = EmptyString(input_string);
+  std::cout << "EmptyString return is " << error << std::endl;
+  if (error) break;
   error = CheckCharacters(input_string);
   std::cout << "CheckCharacters return is " << error << std::endl;
   if (error) break;
   error = CheckBeginEnd(input_string);
-  std::cout << "CheckEnd return is " << error << std::endl;
+  std::cout << "CheckBeginEnd return is " << error << std::endl;
   if (error) break;
   error = CheckNeighbor(input_string);
   std::cout << "CheckNeighbor return is: " << error << std::endl;
@@ -166,10 +234,18 @@ bool ErrorCheck(const std::string& input_string) {
   error = CheckParenPairs(input_string);
   std::cout << "CheckParenPairs return is: " << error << std::endl;
   if (error) break;
-  error = CheckNumber(input_string);
+  //error = CheckNumber(input_string);
   std::cout << "CheckNumber return is: " << error << std::endl;
   if (error) break;
   } while (error);
+  return error;
+}
+
+bool EmptyString(const std::string& input_string) {
+  bool error = false;
+  if (0 == input_string.length()) {
+    error = true;
+  }
   return error;
 }
 
@@ -308,16 +384,24 @@ bool CheckParenPairs(std::string copy_string) {
   bool right_paren;
   unsigned int left_paren_count = 0;
   unsigned int right_paren_count = 0;
+  for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+    if ('(' == copy_string[i]) {
+      ++left_paren_count;
+    }
+    if (')' == copy_string[i]) {
+      ++right_paren_count;
+    }
+  }
   do {
     left_paren = false;
     right_paren = false;
     for (long unsigned int i = 0; i < copy_string.length(); ++i) {
+      left_paren = false;
+      right_paren = false;
       if ('(' == copy_string[i]) { // If a left parenthesis is found, search for a right parenthesis.
-        ++left_paren_count;
         left_paren = true;
         for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
           if (')' == copy_string[j]) {
-            ++right_paren_count;
             right_paren = true;
             copy_string[j] = '~'; // Remove right parenthesis to prevent recounting.
             break;
@@ -352,6 +436,7 @@ bool CheckNumber(const std::string& input_string) {
     digit_found = false;
     end_found = false;
     range = 0;
+    std::cout << "looping herE" << std::endl;
     for (long unsigned int i = 0; i < copy_string.length(); ++i) {
       if ('-' == copy_string[i] || '.' == copy_string[i] ||
           isdigit(copy_string[i])) { // Conditions for the beggining of a number.
@@ -366,22 +451,8 @@ bool CheckNumber(const std::string& input_string) {
             digit_found = true;
             break;
           }
-          if ('.' == copy_string[j] && period_found) { // If a second period is found within a single number.
-            error = true;
-          std::cout << "here1" << std::endl;
-            break;
-          }
           if ('.' == copy_string[j]) {
             period_found = true;
-          }
-          if ('-' == copy_string[j]) { // If a negative sign is found inside of a number.
-            error = true;
-          std::cout << "copy_string is " << copy_string << std::endl;
-          std::cout << "j - 1 is " << copy_string[j -1] << std::endl;
-          std::cout << "j is " << copy_string[j] << std::endl;
-          std::cout << "j + 1 is " << copy_string[j + 1] << std::endl;
-          std::cout << "here2" << std::endl;
-            break;
           }
           if (isdigit(copy_string[j])) { // Ensures that a number contains at least 1 digit.
             digit_found = true;

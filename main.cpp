@@ -18,6 +18,7 @@ int main() {
   std::string asterisk_string;
   std::string kcc_string;
   std::string plus_string;
+  std::string zero_string;
   std::deque<std::string> history_deque;
   do {
     input_output::PrintMenu();
@@ -26,17 +27,23 @@ int main() {
       input_string = input_array;
       switch (Option(input_string)) {
         case 1:
+          if (error_check::LonePeriod(input_string)) {
+            std::cout << "Invalid expression." << std::endl;
+            break;
+          }
           asterisk_string = format::InsertAsterisk(input_string);
           spaceless_string = format::RemoveSpace(asterisk_string);
           kcc_string = format::KeepChangeChange(spaceless_string);
           plus_string = format::InsertPlus(kcc_string);
-          if (!error_check::ErrorCheck(plus_string)) {
+          zero_string = format::InsertZero(plus_string);
+          if (!error_check::ErrorCheck(zero_string)) {
             std::cout << "Valid expression." << std::endl;
             std::cout << "input_string: \"" << input_string << "\"" << std::endl;
             std::cout << "asterisk_string: \"" << asterisk_string << "\"" << std::endl;
             std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
             std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
             std::cout << "plus_string: \"" << plus_string << "\"" << std::endl;
+            std::cout << "zero_string: \"" << zero_string << "\"" << std::endl;
           } else {
             std::cout << "Invalid expression." << std::endl;
             std::cout << "input_string: \"" << input_string << "\"" << std::endl;
@@ -44,6 +51,7 @@ int main() {
             std::cout << "spaceless_string: \"" << spaceless_string << "\"" << std::endl;
             std::cout << "kcc_string: \"" << kcc_string << "\"" << std::endl;
             std::cout << "plus_string: \"" << plus_string << "\"" << std::endl;
+            std::cout << "zero_string: \"" << zero_string << "\"" << std::endl;
             break;
           }
           StoreEquation(history_deque, input_string); // REPLACE input_string WITH equation_string
