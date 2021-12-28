@@ -190,6 +190,12 @@ namespace error_check { // Error checking functions.
 
 bool LonePeriod(const std::string& input_string) {
   bool error = false;
+  if (2 == input_string.length()) {
+    if(('.' == input_string[0] && '-' == input_string[1]) ||
+        ('-' == input_string[0] && '.' == input_string[1])) {
+      error = true;
+    }
+  }
   if (1 == input_string.length()) {
     if ('.' == input_string[0]) {
       error = true;
@@ -233,9 +239,6 @@ bool ErrorCheck(const std::string& input_string) {
   if (error) break;
   error = CheckParenPairs(input_string);
   std::cout << "CheckParenPairs return is: " << error << std::endl;
-  if (error) break;
-  //error = CheckNumber(input_string);
-  std::cout << "CheckNumber return is: " << error << std::endl;
   if (error) break;
   } while (error);
   return error;
@@ -420,80 +423,6 @@ bool CheckParenPairs(std::string copy_string) {
   if (left_paren_count != right_paren_count) { // Accounts for right parenthesis that appear before left parenthesis.
     error = true;
   }
-  return error;
-}
-
-bool CheckNumber(const std::string& input_string) {
-  bool error = false;
-  bool loop = true;
-  bool period_found;
-  bool digit_found;
-  bool end_found;
-  unsigned int range;
-  std::string copy_string = input_string;
-  do {
-    period_found = false;
-    digit_found = false;
-    end_found = false;
-    range = 0;
-    std::cout << "looping herE" << std::endl;
-    for (long unsigned int i = 0; i < copy_string.length(); ++i) {
-      if ('-' == copy_string[i] || '.' == copy_string[i] ||
-          isdigit(copy_string[i])) { // Conditions for the beggining of a number.
-        if ('.' == copy_string[i]) {
-          period_found = true;
-        } else if (isdigit(copy_string[i])) {
-          digit_found = true;
-        }
-        for (long unsigned int j = i + 1; j < copy_string.length(); ++j) {
-          ++range;
-          if ('(' == copy_string[j]) { // If there was only a negative sign in front of a parenthesis.
-            digit_found = true;
-            break;
-          }
-          if ('.' == copy_string[j]) {
-            period_found = true;
-          }
-          if (isdigit(copy_string[j])) { // Ensures that a number contains at least 1 digit.
-            digit_found = true;
-          }
-          if (')' == copy_string[j] || '^' == copy_string[j] ||
-              '*' == copy_string[j] || '/' == copy_string[j] ||
-              '%' == copy_string[j] || '+' == copy_string[j] ||
-              '.' == copy_string[j]){
-            end_found = true;
-            if ('.' == copy_string[j]) {
-              copy_string.erase(i, range + 1);
-            } else copy_string.erase(i, range);
-            break;
-          }
-          if (copy_string.length() - 1 == j) { // Stop do while loop once the end of the string has been reached.
-            loop = false;
-          }
-        }
-        if (!digit_found) {
-          error = true;
-          std::cout << "here3" << std::endl;
-        }
-        if (end_found) {
-          break;
-        }
-        if (error) { // If an error has been discovered, no need to continue looping.
-          break;
-        }
-      }
-      if (copy_string.length() - 1 == i) {
-        loop = false;
-      }
-      period_found = false;
-      digit_found = false;
-      end_found = false;
-      range = 0;
-    }
-    if (true == error) {
-      loop = false;
-    }
-  } while (loop);
   return error;
 }
 } // End of "commacalc::error_check" namespace.

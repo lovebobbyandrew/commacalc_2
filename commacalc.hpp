@@ -50,8 +50,6 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
 
   bool CheckParenPairs(std::string); // Checks that all left parenthesis have a matching right parenthesis.
-
-  bool CheckNumber(const std::string&); // Checks if each number has at most 1 decimal and at most 1 negative sign (at the beginning).
   } // End of "commacalc::error_check" namespace.
 
   namespace operation { // Basic math functions.
