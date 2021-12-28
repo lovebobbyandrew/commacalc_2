@@ -39,6 +39,8 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
 
   bool LonePeriod(const std::string&); // Searches for lone periods in input string.
 
+  bool PeriodEnd(const std::string&); // Checks if expression ends with "*.".
+
   bool ErrorCheck(const std::string&); // Calls other error checking functions.
 
   bool EmptyString(const std::string&); // Checks if input string is empty.
@@ -50,6 +52,10 @@ void StoreEquation(std::deque<std::string>&, const std::string&); // Stores equa
   bool CheckNeighbor(const std::string&); // Checks if adjacent indexes are valid (whitespace must have been removed prior).
 
   bool CheckParenPairs(std::string); // Checks that all left parenthesis have a matching right parenthesis.
+
+  bool IsInteger(const double&); // Checks that input is an integer.
+
+  bool IsNatural(const double&); // Checks that input is natural.
   } // End of "commacalc::error_check" namespace.
 
   namespace operation { // Basic math functions.

@@ -33,6 +33,10 @@ int main() {
           }
           asterisk_string = format::InsertAsterisk(input_string);
           spaceless_string = format::RemoveSpace(asterisk_string);
+          if (error_check::PeriodEnd(spaceless_string)) {
+            std::cout << "Invalid expression." << std::endl;
+            break;
+          }
           kcc_string = format::KeepChangeChange(spaceless_string);
           plus_string = format::InsertPlus(kcc_string);
           zero_string = format::InsertZero(plus_string);

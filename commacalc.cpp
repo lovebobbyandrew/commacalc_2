@@ -222,6 +222,16 @@ bool LonePeriod(const std::string& input_string) {
   return error;
 }
 
+bool PeriodEnd(const std::string& input_string) {
+  bool error = false;
+  if (input_string.length() > 1) {
+    if ('.' == input_string[input_string.length() - 1] && '*' == input_string[input_string.length() - 2]) {
+      error = true;
+    }
+  }
+  return error;
+}
+
 bool ErrorCheck(const std::string& input_string) {
   bool error = false;
   do {
@@ -421,6 +431,23 @@ bool CheckParenPairs(std::string copy_string) {
     }
   } while (loop);
   if (left_paren_count != right_paren_count) { // Accounts for right parenthesis that appear before left parenthesis.
+    error = true;
+  }
+  return error;
+}
+
+bool IsInteger(const double& argument) {
+  bool error = false;
+  int casted_double = static_cast<int>(argument);
+  if (static_cast<double>(casted_double) != argument) {
+    error = true;
+  }
+  return error;
+}
+
+bool IsNatural(const double& argument) {
+  bool error = IsInteger(argument);
+  if (argument < 0) {
     error = true;
   }
   return error;
